@@ -1,4 +1,7 @@
+import { Model } from './model.js';
+
 let socket = null;
+let model = new Model;
 
 function connectWebSocket() {
     socket = new WebSocket("ws://localhost:5333", "MASQNode-UIv2"); // Update with your actual service
@@ -35,6 +38,16 @@ function idleWebSocketMessage() {
 
 // Message handler to respond to other parts of the extension
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    messanger.process_payload(message);
+    model.process_message(message);
+    if (message.type === "password_update") {
+        model.update_password(message.payload);
+        socket.send(message.payload);
+    }
+    if (message.type === "change_chain") {
+        model.update_chain(message.payload);
+        socket.send(message.payload);
+    }
     if (message.type === "ws_send") {
         if (socket && socket.readyState === WebSocket.OPEN) {
             socket.send(message.payload);
@@ -56,5 +69,6 @@ function closeWebSocket() {
 
 chrome.runtime.onSuspend.addListener(() => {
   console.log("[Service Worker] Suspending background script...");
+  model.persist();
   closeWebSocket();
 });
