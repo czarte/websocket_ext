@@ -1,0 +1,22 @@
+{
+  "name": "websocket_chrome_ext",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.4.19",
+    "vite-plugin-static-copy": "^3.0.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.5.0",
+    "ethers": "^6.14.3",
+    "react": "^19.1.0"
+  }
+}
